@@ -22,7 +22,7 @@ const StudentSupport = () => {
 
   const fetchTickets = async () => {
     const res = await axios.get(
-      "http://127.0.0.1:8000/api/students/support/",
+      `${import.meta.env.VITE_API_URL}/api/students/support/`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     setTickets(res.data);
@@ -33,7 +33,7 @@ const StudentSupport = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/students/support/create/",
+        `${import.meta.env.VITE_API_URL}/api/students/support/create/`,
         form,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -50,7 +50,7 @@ const StudentSupport = () => {
     if (!message.trim()) return;
 
     await axios.post(
-      `http://127.0.0.1:8000/api/students/support/reply/${ticketId}/`,
+      `${import.meta.env.VITE_API_URL}/api/students/support/reply/${ticketId}/`,
       { message },
       { headers: { Authorization: `Bearer ${token}` } }
     );

@@ -39,7 +39,7 @@ const ComplaintHistory = () => {
     const fetchComplaints = async () => {
       try {
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/complaints/student/",
+          `${import.meta.env.VITE_API_URL}/api/complaints/student/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

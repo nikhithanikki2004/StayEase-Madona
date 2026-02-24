@@ -19,7 +19,7 @@ export default function ResolutionHistory() {
 
     const fetchHistory = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/staff/history/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/staff/history/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setHistory(res.data);

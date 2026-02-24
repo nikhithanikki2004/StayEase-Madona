@@ -22,7 +22,7 @@ const StudentSidebar = () => {
         const token = localStorage.getItem("access");
 
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/students/dashboard/",
+          `${import.meta.env.VITE_API_URL}/api/students/dashboard/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -32,7 +32,7 @@ const StudentSidebar = () => {
 
         if (res.data.profile?.profile_picture) {
           setProfilePic(
-            "http://127.0.0.1:8000" + res.data.profile.profile_picture
+            `${import.meta.env.VITE_API_URL}` + res.data.profile.profile_picture
           );
         }
       } catch (err) {

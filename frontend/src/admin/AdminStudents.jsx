@@ -16,7 +16,7 @@ const AdminStudents = () => {
   const fetchStudents = async () => {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/api/admin/students/",
+        `${import.meta.env.VITE_API_URL}/api/admin/students/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const AdminStudents = () => {
   const toggleStudentStatus = async (studentId) => {
     try {
       await axios.patch(
-        `http://127.0.0.1:8000/api/admin/students/${studentId}/toggle/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/students/${studentId}/toggle/`,
         {},
         {
           headers: {
@@ -55,7 +55,7 @@ const AdminStudents = () => {
 
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/api/admin/students/${studentId}/remove/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/students/${studentId}/remove/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -21,7 +21,7 @@ export default function StaffDashboard() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/staff/dashboard/", {
+      .get(`${import.meta.env.VITE_API_URL}/api/staff/dashboard/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setStats(res.data))

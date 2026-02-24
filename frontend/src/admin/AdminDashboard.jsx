@@ -40,7 +40,7 @@ export default function AdminDashboard() {
     }
 
     axios
-      .get("http://127.0.0.1:8000/api/admin/dashboard/", {
+      .get(`${import.meta.env.VITE_API_URL}/api/admin/dashboard/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setStats(res.data))

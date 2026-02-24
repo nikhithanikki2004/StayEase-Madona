@@ -29,7 +29,7 @@ export default function AdminBroadcast() {
 
     const fetchBroadcasts = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/broadcasts/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/broadcasts/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setBroadcasts(res.data);
@@ -42,7 +42,7 @@ export default function AdminBroadcast() {
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://127.0.0.1:8000/api/broadcasts/", form, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/broadcasts/`, form, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success("Broadcast sent to all students!");
@@ -56,7 +56,7 @@ export default function AdminBroadcast() {
 
     const toggleActive = async (id, currentStatus) => {
         try {
-            await axios.patch(`http://127.0.0.1:8000/api/broadcasts/${id}/`, {
+            await axios.patch(`${import.meta.env.VITE_API_URL}/api/broadcasts/${id}/`, {
                 is_active: !currentStatus
             }, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -71,7 +71,7 @@ export default function AdminBroadcast() {
     const handleDelete = async (id) => {
         if (!window.confirm("Delete this broadcast history?")) return;
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/broadcasts/${id}/`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/broadcasts/${id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success("Broadcast deleted");

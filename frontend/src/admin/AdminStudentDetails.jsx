@@ -19,7 +19,7 @@ const AdminStudentDetails = () => {
   const fetchStudentDetails = async () => {
     try {
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/admin/students/${id}/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/students/${id}/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -40,7 +40,7 @@ const AdminStudentDetails = () => {
 
     try {
       await axios.patch(
-        `http://127.0.0.1:8000/api/admin/complaints/${complaintId}/close/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/${complaintId}/close/`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

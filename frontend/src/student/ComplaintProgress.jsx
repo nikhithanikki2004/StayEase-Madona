@@ -17,7 +17,7 @@ const ComplaintProgress = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://127.0.0.1:8000/api/complaints/student/", {
+      .get(`${import.meta.env.VITE_API_URL}/api/complaints/student/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

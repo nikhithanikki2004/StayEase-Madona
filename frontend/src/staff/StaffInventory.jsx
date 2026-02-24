@@ -46,7 +46,7 @@ export default function StaffInventory() {
 
     const fetchInventory = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/inventory/items/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/inventory/items/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setItems(res.data);
@@ -62,7 +62,7 @@ export default function StaffInventory() {
 
         try {
             await axios.post(
-                `http://127.0.0.1:8000/api/inventory/items/${requestItem.id}/log_usage/`,
+                `${import.meta.env.VITE_API_URL}/api/inventory/items/${requestItem.id}/log_usage/`,
                 { quantity },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

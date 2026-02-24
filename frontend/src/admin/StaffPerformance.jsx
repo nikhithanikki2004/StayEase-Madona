@@ -30,7 +30,7 @@ const StaffPerformance = () => {
   const fetchPerformance = async () => {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/api/admin/staff/performance/",
+        `${import.meta.env.VITE_API_URL}/api/admin/staff/performance/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

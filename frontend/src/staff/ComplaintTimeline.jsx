@@ -18,7 +18,7 @@ export default function ComplaintTimeline({ complaint, onClose }) {
         try {
             setLoading(true);
             const res = await axios.get(
-                `http://127.0.0.1:8000/api/staff/complaints/${complaint.id}/timeline/`,
+                `${import.meta.env.VITE_API_URL}/api/staff/complaints/${complaint.id}/timeline/`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -154,7 +154,7 @@ export default function ComplaintTimeline({ complaint, onClose }) {
                                         {event.image && (
                                             <div className="mt-3 rounded-lg overflow-hidden border border-gray-100 max-w-xs">
                                                 <img
-                                                    src={event.image.startsWith('http') ? event.image : `http://127.0.0.1:8000${event.image}`}
+                                                    src={event.image.startsWith('http') ? event.image : `${import.meta.env.VITE_API_URL}${event.image}`}
                                                     alt="Resolution proof"
                                                     className="w-full h-32 object-cover hover:scale-105 transition-transform"
                                                 />

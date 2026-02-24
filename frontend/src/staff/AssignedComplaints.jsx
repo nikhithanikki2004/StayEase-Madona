@@ -69,7 +69,7 @@ export default function AssignedComplaints() {
 
     const fetchComplaints = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/staff/complaints/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/staff/complaints/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setComplaints(res.data);
@@ -92,7 +92,7 @@ export default function AssignedComplaints() {
             if (proofFile) formData.append("proof", proofFile);
 
             await axios.patch(
-                `http://127.0.0.1:8000/api/staff/complaints/${selectedComplaint.id}/update/`,
+                `${import.meta.env.VITE_API_URL}/api/staff/complaints/${selectedComplaint.id}/update/`,
                 formData,
                 {
                     headers: {
@@ -115,7 +115,7 @@ export default function AssignedComplaints() {
         if (!escalationNote) return;
         try {
             await axios.post(
-                `http://127.0.0.1:8000/api/staff/complaints/${selectedComplaint.id}/escalate/`,
+                `${import.meta.env.VITE_API_URL}/api/staff/complaints/${selectedComplaint.id}/escalate/`,
                 { note: escalationNote },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -136,7 +136,7 @@ export default function AssignedComplaints() {
         if (!chatMessage.trim()) return;
         try {
             const res = await axios.post(
-                `http://127.0.0.1:8000/api/staff/complaints/${selectedComplaint.id}/escalate-reply/`,
+                `${import.meta.env.VITE_API_URL}/api/staff/complaints/${selectedComplaint.id}/escalate-reply/`,
                 { message: chatMessage },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -178,7 +178,7 @@ export default function AssignedComplaints() {
         if (!bulkNote || selectedIds.length === 0) return;
         try {
             await axios.post(
-                "http://127.0.0.1:8000/api/staff/complaints/bulk-resolve/",
+                `${import.meta.env.VITE_API_URL}/api/staff/complaints/bulk-resolve/`,
                 { ids: selectedIds, resolution_notes: bulkNote },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -437,10 +437,10 @@ export default function AssignedComplaints() {
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Resolution Proof</label>
                                         <div className="mt-2 rounded-xl overflow-hidden border border-green-200">
                                             <img
-                                                src={selectedComplaint.resolution_proof.startsWith('http') ? selectedComplaint.resolution_proof : `http://127.0.0.1:8000${selectedComplaint.resolution_proof}`}
+                                                src={selectedComplaint.resolution_proof.startsWith('http') ? selectedComplaint.resolution_proof : `${import.meta.env.VITE_API_URL}${selectedComplaint.resolution_proof}`}
                                                 alt="Resolution Proof"
                                                 className="w-full h-auto max-h-64 object-cover cursor-zoom-in hover:brightness-90 transition-all font-mono"
-                                                onClick={() => setLightboxImage(selectedComplaint.resolution_proof.startsWith('http') ? selectedComplaint.resolution_proof : `http://127.0.0.1:8000${selectedComplaint.resolution_proof}`)}
+                                                onClick={() => setLightboxImage(selectedComplaint.resolution_proof.startsWith('http') ? selectedComplaint.resolution_proof : `${import.meta.env.VITE_API_URL}${selectedComplaint.resolution_proof}`)}
                                             />
                                         </div>
                                     </div>
@@ -478,10 +478,10 @@ export default function AssignedComplaints() {
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Attachment</label>
                                         <div className="mt-2 rounded-xl overflow-hidden border border-gray-200">
                                             <img
-                                                src={selectedComplaint.image.startsWith('http') ? selectedComplaint.image : `http://127.0.0.1:8000${selectedComplaint.image}`}
+                                                src={selectedComplaint.image.startsWith('http') ? selectedComplaint.image : `${import.meta.env.VITE_API_URL}${selectedComplaint.image}`}
                                                 alt="Complaint Attachment"
                                                 className="w-full h-auto max-h-64 object-cover cursor-zoom-in hover:brightness-90 transition-all"
-                                                onClick={() => setLightboxImage(selectedComplaint.image.startsWith('http') ? selectedComplaint.image : `http://127.0.0.1:8000${selectedComplaint.image}`)}
+                                                onClick={() => setLightboxImage(selectedComplaint.image.startsWith('http') ? selectedComplaint.image : `${import.meta.env.VITE_API_URL}${selectedComplaint.image}`)}
                                             />
                                         </div>
                                     </div>

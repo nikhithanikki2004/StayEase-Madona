@@ -23,7 +23,7 @@ export default function StaffMaintenance() {
 
     const fetchTasks = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/maintenance/tasks/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/maintenance/tasks/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setTasks(res.data);
@@ -57,7 +57,7 @@ export default function StaffMaintenance() {
 
         try {
             await axios.post(
-                `http://127.0.0.1:8000/api/maintenance/tasks/${selectedTask.id}/complete/`,
+                `${import.meta.env.VITE_API_URL}/api/maintenance/tasks/${selectedTask.id}/complete/`,
                 formData,
                 {
                     headers: {

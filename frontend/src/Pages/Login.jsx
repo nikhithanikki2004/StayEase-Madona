@@ -28,7 +28,7 @@ export default function Login() {
       else {
         try {
           const response = await axios.post(
-            "http://127.0.0.1:8000/api/students/check-email/",
+            `${import.meta.env.VITE_API_URL}/api/students/check-email/`,
             { email: value }
           );
           if (!response.data.exists)
@@ -63,7 +63,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/students/check-email/",
+        `${import.meta.env.VITE_API_URL}/api/students/check-email/`,
         { email: emailValue }
       );
       if (!response.data.exists) {
@@ -109,7 +109,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/students/login/",
+        `${import.meta.env.VITE_API_URL}/api/students/login/`,
         formData
       );
 

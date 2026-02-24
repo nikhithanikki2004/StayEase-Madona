@@ -16,7 +16,7 @@ const AdminSupport = () => {
   const fetchTickets = async () => {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/api/students/admin/support/",
+        `${import.meta.env.VITE_API_URL}/api/students/admin/support/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -47,7 +47,7 @@ const AdminSupport = () => {
 
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/students/admin/support/reply/${activeTicket.id}/`,
+        `${import.meta.env.VITE_API_URL}/api/students/admin/support/reply/${activeTicket.id}/`,
         { message: reply },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -66,7 +66,7 @@ const AdminSupport = () => {
   const updateStatus = async (status) => {
     try {
       await axios.patch(
-        `http://127.0.0.1:8000/api/students/admin/support/status/${activeTicket.id}/`,
+        `${import.meta.env.VITE_API_URL}/api/students/admin/support/status/${activeTicket.id}/`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );

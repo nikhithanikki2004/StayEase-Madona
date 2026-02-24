@@ -26,7 +26,7 @@ const AdminStaffUpdates = () => {
   const fetchUpdates = async () => {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/api/admin/staff-updates/",
+        `${import.meta.env.VITE_API_URL}/api/admin/staff-updates/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -43,7 +43,7 @@ const AdminStaffUpdates = () => {
   const fetchComplaintDetails = async (complaintId) => {
     try {
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/admin/complaints/${complaintId}/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/${complaintId}/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -83,7 +83,7 @@ const AdminStaffUpdates = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/admin/staff-updates/clear/",
+        `${import.meta.env.VITE_API_URL}/api/admin/staff-updates/clear/`,
         { ids: Array.from(selectedIds) },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -110,7 +110,7 @@ const AdminStaffUpdates = () => {
     setSubmittingReply(true);
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/admin/complaints/${selectedUpdate.complaint_id}/escalation/reply/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/${selectedUpdate.complaint_id}/escalation/reply/`,
         { admin_reply: replyText },
         {
           headers: { Authorization: `Bearer ${token}` },

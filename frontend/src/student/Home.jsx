@@ -46,7 +46,7 @@ const Home = () => {
 
         // Fetch Dashboard Data
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/students/dashboard/",
+          `${import.meta.env.VITE_API_URL}/api/students/dashboard/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -55,7 +55,7 @@ const Home = () => {
 
         // Fetch Active Broadcasts
         const broadcastRes = await axios.get(
-          "http://127.0.0.1:8000/api/broadcasts/active/",
+          `${import.meta.env.VITE_API_URL}/api/broadcasts/active/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

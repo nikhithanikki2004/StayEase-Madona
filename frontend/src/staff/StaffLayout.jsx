@@ -32,7 +32,7 @@ export default function StaffLayout() {
                 const token = localStorage.getItem("access");
                 if (!token) return;
 
-                const res = await fetch("http://127.0.0.1:8000/api/students/dashboard/", {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/students/dashboard/`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

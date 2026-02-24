@@ -54,7 +54,7 @@ const RegisterComplaint = () => {
     const fetchData = async () => {
       try {
         const studentRes = await axios.get(
-          "http://127.0.0.1:8000/api/students/dashboard/",
+          `${import.meta.env.VITE_API_URL}/api/students/dashboard/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -67,7 +67,7 @@ const RegisterComplaint = () => {
         });
 
         const broadcastRes = await axios.get(
-          "http://127.0.0.1:8000/api/broadcasts/active/",
+          `${import.meta.env.VITE_API_URL}/api/broadcasts/active/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -119,7 +119,7 @@ const RegisterComplaint = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/complaints/student/",
+        `${import.meta.env.VITE_API_URL}/api/complaints/student/`,
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },

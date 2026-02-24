@@ -47,7 +47,7 @@ const EditProfile = () => {
         const token = localStorage.getItem("access");
 
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/students/profile/",
+          `${import.meta.env.VITE_API_URL}/api/students/profile/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -66,7 +66,7 @@ const EditProfile = () => {
 
         if (res.data.profile_picture) {
           setImagePreview(
-            "http://127.0.0.1:8000" + res.data.profile_picture
+            `${import.meta.env.VITE_API_URL}` + res.data.profile_picture
           );
         }
 
@@ -107,7 +107,7 @@ const EditProfile = () => {
       }
 
       await axios.put(
-        "http://127.0.0.1:8000/api/students/profile/update/",
+        `${import.meta.env.VITE_API_URL}/api/students/profile/update/`,
         formData,
         {
           headers: {

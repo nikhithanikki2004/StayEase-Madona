@@ -26,7 +26,7 @@ export default function StaffEscalationNotes() {
 
     const fetchEscalations = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/staff/complaints/escalated/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/staff/complaints/escalated/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setEscalatedComplaints(res.data);
@@ -40,7 +40,7 @@ export default function StaffEscalationNotes() {
         if (!note.trim()) return;
         try {
             await axios.post(
-                `http://127.0.0.1:8000/api/staff/complaints/${selectedComplaint.id}/escalate/`,
+                `${import.meta.env.VITE_API_URL}/api/staff/complaints/${selectedComplaint.id}/escalate/`,
                 { note },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

@@ -31,7 +31,7 @@ export default function AdminMaintenance() {
 
     const fetchTasks = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/maintenance/tasks/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/maintenance/tasks/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // Handle both array and paginated object response
@@ -47,7 +47,7 @@ export default function AdminMaintenance() {
 
     const fetchHistory = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/maintenance/logs/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/maintenance/logs/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = Array.isArray(res.data) ? res.data : (res.data.results || []);
@@ -60,7 +60,7 @@ export default function AdminMaintenance() {
 
     const fetchStaff = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/admin/staff/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/staff/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setStaffList(res.data);
@@ -78,12 +78,12 @@ export default function AdminMaintenance() {
 
         try {
             if (editingTask) {
-                await axios.patch(`http://127.0.0.1:8000/api/maintenance/tasks/${editingTask.id}/`, payload, {
+                await axios.patch(`${import.meta.env.VITE_API_URL}/api/maintenance/tasks/${editingTask.id}/`, payload, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 toast.success("Schedule Updated");
             } else {
-                await axios.post("http://127.0.0.1:8000/api/maintenance/tasks/", payload, {
+                await axios.post(`${import.meta.env.VITE_API_URL}/api/maintenance/tasks/`, payload, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 toast.success("Maintenance Schedule Created");
@@ -100,7 +100,7 @@ export default function AdminMaintenance() {
     const handleDeleteTask = async (id) => {
         if (!window.confirm("Are you sure you want to delete this schedule?")) return;
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/maintenance/tasks/${id}/`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/maintenance/tasks/${id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success("Schedule Deleted");
@@ -118,7 +118,7 @@ export default function AdminMaintenance() {
         }
 
         try {
-            await axios.post(`http://127.0.0.1:8000/api/maintenance/logs/${id}/${action}/`,
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/maintenance/logs/${id}/${action}/`,
                 { admin_comment },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

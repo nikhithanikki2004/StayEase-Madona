@@ -33,7 +33,7 @@ export default function AdminInventory() {
 
     const fetchInventory = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8000/api/inventory/items/", {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/inventory/items/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setItems(res.data);
@@ -48,7 +48,7 @@ export default function AdminInventory() {
     const handleAddItem = async () => {
         if (!newItem.name || !newItem.total_quantity) return toast.error("Fill all fields");
         try {
-            await axios.post("http://127.0.0.1:8000/api/inventory/items/", {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/inventory/items/`, {
                 ...newItem,
                 available_quantity: newItem.total_quantity
             }, {
@@ -66,7 +66,7 @@ export default function AdminInventory() {
     const handleRestock = async () => {
         if (!restockQty || restockQty <= 0) return toast.error("Invalid quantity");
         try {
-            await axios.post(`http://127.0.0.1:8000/api/inventory/items/${restockItem.id}/add_stock/`, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/inventory/items/${restockItem.id}/add_stock/`, {
                 quantity: restockQty
             }, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -93,7 +93,7 @@ export default function AdminInventory() {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://127.0.0.1:8000/api/inventory/items/${id}/`, {
+                await axios.delete(`${import.meta.env.VITE_API_URL}/api/inventory/items/${id}/`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 toast.success("Item Deleted");

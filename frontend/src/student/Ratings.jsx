@@ -16,7 +16,7 @@ const Ratings = () => {
   const fetchComplaints = async () => {
     try {
       const res = await axios.get(
-        "http://127.0.0.1:8000/api/complaints/student/",
+        `${import.meta.env.VITE_API_URL}/api/complaints/student/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -121,7 +121,7 @@ const RatingCard = ({ complaint, token, onSuccess }) => {
 
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/complaints/rate/${complaint.id}/`,
+        `${import.meta.env.VITE_API_URL}/api/complaints/rate/${complaint.id}/`,
         { rating, feedback },
         { headers: { Authorization: `Bearer ${token}` } }
       );

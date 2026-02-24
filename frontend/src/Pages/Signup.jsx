@@ -45,7 +45,7 @@ export default function Signup() {
         else if (!emailRegex.test(value)) error = "Invalid email format";
         else {
           try {
-            const response = await axios.post("http://127.0.0.1:8000/api/students/check-email/", { email: value });
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/students/check-email/`, { email: value });
             if (response.data.exists) error = "Email already registered";
           } catch (err) { console.error("Email check failed"); }
         }
@@ -102,7 +102,7 @@ export default function Signup() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/students/signup/",
+        `${import.meta.env.VITE_API_URL}/api/students/signup/`,
         payload
       );
 

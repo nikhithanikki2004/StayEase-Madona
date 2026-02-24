@@ -19,7 +19,7 @@ export default function AdminStaff() {
   /* ================= FETCH STAFF ================= */
   const fetchStaff = () => {
     axios
-      .get("http://127.0.0.1:8000/api/admin/staff/", {
+      .get(`${import.meta.env.VITE_API_URL}/api/admin/staff/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setStaff(res.data))
@@ -46,7 +46,7 @@ export default function AdminStaff() {
 
     axios
       .post(
-        "http://127.0.0.1:8000/api/admin/staff/create/",
+        `${import.meta.env.VITE_API_URL}/api/admin/staff/create/`,
         form,
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -98,7 +98,7 @@ export default function AdminStaff() {
 
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/api/admin/staff/${staffId}/delete/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/staff/${staffId}/delete/`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

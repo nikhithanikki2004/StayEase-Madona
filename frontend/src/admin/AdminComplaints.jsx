@@ -36,7 +36,7 @@ export default function AdminComplaints() {
 
     // 🔹 Fetch available staff
     axios
-      .get("http://127.0.0.1:8000/api/admin/staff/available/", {
+      .get(`${import.meta.env.VITE_API_URL}/api/admin/staff/available/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setStaffList(res.data))
@@ -46,7 +46,7 @@ export default function AdminComplaints() {
   const fetchComplaints = () => {
     setLoading(true);
     axios
-      .get("http://127.0.0.1:8000/api/admin/complaints/", {
+      .get(`${import.meta.env.VITE_API_URL}/api/admin/complaints/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -81,7 +81,7 @@ export default function AdminComplaints() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/admin/complaints/clear/",
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/clear/`,
         { ids: Array.from(selectedIds) },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -102,7 +102,7 @@ export default function AdminComplaints() {
   const updatePriority = (complaintId, priority) => {
     axios
       .patch(
-        `http://127.0.0.1:8000/api/admin/complaints/${complaintId}/priority/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/${complaintId}/priority/`,
         { priority },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -126,7 +126,7 @@ export default function AdminComplaints() {
 
     axios
       .patch(
-        `http://127.0.0.1:8000/api/admin/complaints/${complaintId}/assign/`,
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/${complaintId}/assign/`,
         { staff_id: staffId },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -155,7 +155,7 @@ export default function AdminComplaints() {
     try {
       setLoading(true);
       await axios.post(
-        "http://127.0.0.1:8000/api/admin/complaints/bulk-assign/",
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/bulk-assign/`,
         {
           ids: Array.from(selectedIds),
           staff_id: staffId
@@ -181,7 +181,7 @@ export default function AdminComplaints() {
     try {
       setLoading(true);
       await axios.post(
-        "http://127.0.0.1:8000/api/admin/complaints/bulk-update-status/",
+        `${import.meta.env.VITE_API_URL}/api/admin/complaints/bulk-update-status/`,
         {
           ids: Array.from(selectedIds),
           status: status

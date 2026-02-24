@@ -14,7 +14,7 @@ const StaffRatings = () => {
     const fetchRatings = async () => {
         try {
             const token = localStorage.getItem("access");
-            const response = await axios.get("http://127.0.0.1:8000/api/staff/ratings/", {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/staff/ratings/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setRatingsData(response.data);
