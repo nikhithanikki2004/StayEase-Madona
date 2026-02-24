@@ -1,0 +1,21 @@
+--- Hostel Profiles ---
+User: anju123@gmail.com, Hostel: 'Pratheeksha Hostel'
+User: ann123@gmail.com, Hostel: 'Madonna Ladies’ Hostel'
+User: rohan123@gmail.com, Hostel: 'None'
+User: nibin123@gmail.com, Hostel: 'None'
+User: anntk123@gmail.com, Hostel: 'None'
+User: jebin123@gmail.com, Hostel: 'None'
+User: johnson123@gmail.com, Hostel: 'None'
+User: arun123@gmail.com, Hostel: 'None'
+User: elizabeth123@gmail.com, Hostel: 'Amala Hostel'
+User: sandeep123@gmail.com, Hostel: 'Maryknoll Men's Hostel'
+
+--- Complaint Counts by Hostel Profile ---
+Hostel: 'Pratheeksha Hostel', Complaints: 21
+Hostel: 'Madonna Ladies’ Hostel', Complaints: 1
+No Hostel in Profile: 0
+Hostel: 'Amala Hostel', Complaints: 1
+Hostel: 'Maryknoll Men's Hostel', Complaints: 0
+
+--- Global Complaint Count ---
+Total Complaints: 23

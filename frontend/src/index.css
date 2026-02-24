@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+    /* Staff Dashboard Theme (Warm Earthy) */
+    --color-stay-brown: #6F4E37;
+    --color-stay-cream: #FDF5E6;
+    --color-stay-milk: #FFF8E1;
+    --color-stay-mocha: #4E342E;
+    --color-stay-latte: #D7CCC8;
+    --color-stay-orange: #F59E0B;
+
+    /* Font Sizes */
+    --text-xs: 0.675rem;
+    --text-xs--line-height: 1rem;
+    --text-sm: 0.7875rem;
+    --text-sm--line-height: 1.25rem;
+    --text-base: 0.9rem;
+    --text-base--line-height: 1.5rem;
+    --text-lg: 1.0125rem;
+    --text-lg--line-height: 1.75rem;
+    --text-xl: 1.125rem;
+    --text-xl--line-height: 1.75rem;
+    --text-2xl: 1.35rem;
+    --text-2xl--line-height: 2rem;
+    --text-3xl: 1.6875rem;
+    --text-3xl--line-height: 2.25rem;
+    --text-4xl: 2.025rem;
+    --text-4xl--line-height: 2.5rem;
+    --text-5xl: 2.7rem;
+    --text-5xl--line-height: 1;
+    --text-6xl: 3.375rem;
+    --text-6xl--line-height: 1;
+    --text-7xl: 4.275rem;
+    --text-7xl--line-height: 1;
+    --text-8xl: 5.4rem;
+    --text-8xl--line-height: 1;
+    --text-9xl: 7.2rem;
+    --text-9xl--line-height: 1;
+}

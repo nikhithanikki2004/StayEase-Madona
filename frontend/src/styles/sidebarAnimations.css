@@ -1,0 +1,14 @@
+@keyframes sidebarSlideIn {
+  from {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.sidebar-slide-in {
+  animation: sidebarSlideIn 0.45s ease-out forwards;
+}

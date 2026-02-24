@@ -1,0 +1,484 @@
+/* ===============================
+   🌿 STUDENT DASHBOARD THEME
+================================ */
+
+:root {
+  --stay-brown: #6F4E37;
+  --stay-cream: #FBF2E3;
+  --stay-card: #ffffff;
+  --stay-muted: #6b7280;
+  --stay-border: rgba(111, 78, 55, 0.18);
+}
+
+/* Page background */
+.student-bg {
+  background-color: var(--stay-cream);
+  min-height: 100vh;
+  color: var(--stay-brown);
+}
+
+/* Page heading */
+.student-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--stay-brown);
+}
+
+/* Sub text */
+.student-subtext {
+  color: var(--stay-muted);
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+
+/* Cards */
+.student-card {
+  background: var(--stay-card);
+  border-radius: 1.2rem;
+  padding: 1.6rem;
+  border: 1px solid var(--stay-border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+/* Section titles */
+.student-card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--stay-brown);
+}
+
+/* Buttons */
+.student-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.2rem;
+  background: #f3f4f6;
+  border-radius: 0.7rem;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.student-action:hover {
+  background: var(--stay-brown);
+  color: var(--stay-cream);
+}
+
+/* Status badge */
+.student-badge {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.student-badge.submitted {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.student-badge.resolved {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+/* ===============================
+   🟫 STUDENT SIDEBAR THEME
+================================ */
+
+.student-sidebar {
+  background: linear-gradient(
+    180deg,
+    #6F4E37 0%,
+    #5a3e2b 100%
+  );
+  color: #FDF5E6;
+  width: 16rem;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Profile section */
+.student-sidebar-profile {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.student-avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 3px solid #FDF5E6;
+  margin-bottom: 0.6rem;
+  transition: transform 0.25s ease;
+}
+
+.student-avatar:hover {
+  transform: scale(1.05);
+}
+
+.student-initial {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 999px;
+  background: #FDF5E6;
+  color: #6F4E37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.student-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* Navigation */
+.student-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.student-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.65rem;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+}
+
+.student-link:hover {
+  background: #FDF5E6;
+  color: #6F4E37;
+  transform: translateX(4px);
+}
+
+.student-link.active {
+  background: #FDF5E6;
+  color: #6F4E37;
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 #6F4E37;
+}
+
+/* Logout */
+.student-logout {
+  margin-top: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FDF5E6;
+}
+
+.student-logout:hover {
+  background: #dc2626;
+  color: white;
+}
+
+/* ===============================
+   🌿 DASHBOARD ANIMATIONS
+================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* ===============================
+   📦 DASHBOARD CARDS
+================================ */
+
+.dashboard-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.dashboard-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #6F4E37;
+  margin-bottom: 0.4rem;
+}
+
+.dashboard-subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* ===============================
+   🔘 BUTTONS
+================================ */
+
+.primary-btn {
+  background: #6F4E37;
+  color: #FDF5E6;
+  padding: 0.55rem 1.2rem;
+  border-radius: 0.6rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.primary-btn:hover {
+  background: #5a3e2b;
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 0.55rem 1.2rem;
+  border-radius: 0.6rem;
+  transition: all 0.25s ease;
+}
+
+.secondary-btn:hover {
+  background: #d1d5db;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   STAGGERED FADE + SLIDE ANIMATIONS
+   =============================== */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Parent container */
+.stagger-container > * {
+  opacity: 0;
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+/* Delay for each child */
+.stagger-container > *:nth-child(1) {
+  animation-delay: 0.15s;
+}
+.stagger-container > *:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.stagger-container > *:nth-child(3) {
+  animation-delay: 0.45s;
+}
+.stagger-container > *:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+/* Card hover animation */
+.dashboard-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* Button animation */
+.primary-btn {
+  background: #6F4E37;
+  color: #fff;
+  transition: all 0.25s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(111, 78, 55, 0.4);
+}
+
+/* ===============================
+   🟫 LIGHT BROWN BUTTONS
+================================ */
+
+.btn-light-brown {
+  background-color: #E7D3B5; /* light brown */
+  color: #6F4E37;
+  padding: 0.55rem 1.2rem;
+  border-radius: 0.6rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.btn-light-brown:hover {
+  background-color: #D9BD95;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(111, 78, 55, 0.25);
+}
+
+/* Outline version */
+.btn-light-brown-outline {
+  background-color: transparent;
+  color: #6F4E37;
+  border: 1.5px solid #D9BD95;
+  padding: 0.55rem 1.2rem;
+  border-radius: 0.6rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.btn-light-brown-outline:hover {
+  background-color: #E7D3B5;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   📝 REGISTER COMPLAINT FORM
+================================ */
+
+@keyframes formFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-animate {
+  animation: formFadeUp 0.5s ease-out forwards;
+}
+
+/* Form Card */
+.complaint-card {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Inputs */
+.form-input {
+  width: 100%;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.65rem 1rem;
+  transition: all 0.25s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6F4E37;
+  box-shadow: 0 0 0 3px rgba(111, 78, 55, 0.15);
+}
+
+/* Disabled inputs */
+.form-input[disabled] {
+  background: #f3f4f6;
+}
+
+/* Submit Button */
+.submit-btn {
+  background: #E7D3B5;
+  color: #6F4E37;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+  background: #D9BD95;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(111, 78, 55, 0.25);
+}
+
+/* ===============================
+   ⏳ LOADING SPINNER
+================================ */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #e7d3b5;
+  border-top: 3px solid #6f4e37;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===============================
+   ✅ SUCCESS ANIMATION
+================================ */
+@keyframes successPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(253, 245, 230, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.success-box {
+  background: white;
+  padding: 2.5rem 3rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.2);
+  animation: successPop 0.45s ease-out forwards;
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  color: #6f4e37;
+  margin-bottom: 1rem;
+}
+
+
+
