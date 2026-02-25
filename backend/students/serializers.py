@@ -8,7 +8,7 @@ from django.utils.timezone import localtime
 # STUDENT PROFILE
 # =========================
 class StudentProfileSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.ImageField(required=False)
+    profile_picture = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     class Meta:
         model = StudentProfile
@@ -23,6 +23,7 @@ class StudentProfileSerializer(serializers.ModelSerializer):
 
 
 class StudentProfilePictureSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     class Meta:
         model = StudentProfile
         fields = ["profile_picture"]
@@ -107,8 +108,8 @@ class StudentDashboardSerializer(serializers.ModelSerializer):
         ]
 
     def get_profile_picture(self, obj):
-        if hasattr(obj, "profile") and obj.profile.profile_picture:
-            return obj.profile.profile_picture.url
+        if hasattr(obj, "profile") and obj.profile and obj.profile.profile_picture:
+            return obj.profile.profile_picture  # base64 text string
         return None
 
     def get_latest_update(self, obj):

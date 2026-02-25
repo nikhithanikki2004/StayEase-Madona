@@ -71,8 +71,7 @@ class StudentProfile(models.Model):
     hostel_name = models.CharField(max_length=100, blank=True, null=True)
     block = models.CharField(max_length=50, blank=True, null=True)
     room_number = models.CharField(max_length=10, blank=True, null=True)
-    profile_picture = models.ImageField(
-        upload_to="profile_pics/",
+    profile_picture = models.TextField(
         blank=True,
         null=True
     )

@@ -65,13 +65,8 @@ const EditProfile = () => {
         });
 
         if (res.data.profile_picture) {
-          const rawPic = res.data.profile_picture;
-          const baseUrl = import.meta.env.VITE_API_URL || "";
-          const finalUrl = rawPic.startsWith("http")
-            ? rawPic
-            : `${baseUrl.replace(/\/$/, "")}${rawPic.startsWith("/") ? "" : "/"}${rawPic}`;
-
-          setImagePreview(finalUrl);
+          // profile_picture is now a base64 data URI
+          setImagePreview(res.data.profile_picture);
         }
 
       } catch (err) {
@@ -121,6 +116,8 @@ const EditProfile = () => {
       );
 
       setShowSuccess(true);
+      // Clear cached pic so sidebar fetches fresh base64 from server
+      localStorage.removeItem("profile_pic");
 
       setTimeout(() => {
         setShowSuccess(false);

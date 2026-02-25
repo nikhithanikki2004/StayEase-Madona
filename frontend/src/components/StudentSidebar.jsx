@@ -30,20 +30,26 @@ const StudentSidebar = () => {
 
         setStudentName(res.data.full_name);
 
-        const rawPic = res.data.profile_picture || res.data.profile?.profile_picture;
-        if (rawPic) {
-          const baseUrl = import.meta.env.VITE_API_URL || "";
-          // If the returned path starts with http/https, use it as is.
-          const finalUrl = rawPic.startsWith("http")
-            ? rawPic
-            : `${baseUrl.replace(/\/$/, "")}${rawPic.startsWith("/") ? "" : "/"}${rawPic}`;
-
-          setProfilePic(finalUrl);
+        // profile_picture is now a base64 data URI stored in the DB
+        const pic = res.data.profile_picture;
+        if (pic) {
+          setProfilePic(pic);
+          localStorage.setItem("profile_pic", pic);
+        } else {
+          // Clear stale cached pic if none on server
+          localStorage.removeItem("profile_pic");
         }
       } catch (err) {
         console.error("Sidebar fetch failed", err);
+        // Try to use cached picture while offline
+        const cached = localStorage.getItem("profile_pic");
+        if (cached) setProfilePic(cached);
       }
     };
+
+    // Show cached pic immediately while fetching
+    const cached = localStorage.getItem("profile_pic");
+    if (cached) setProfilePic(cached);
 
     fetchStudent();
   }, []);

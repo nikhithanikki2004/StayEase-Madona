@@ -13,12 +13,9 @@ from students.models import Student, StudentProfile, SupportMessage, SupportTick
 from students.permissions import IsAdminUser
 from .serializers import StudentProfileSerializer, StudentSerializer, StudentDashboardSerializer, SupportTicketSerializer
 from .serializers import AdminSupportTicketSerializer
-
-# JWT imports
-from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import StudentProfilePictureSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from rest_framework_simplejwt.tokens import RefreshToken
+import base64
 
 
 
@@ -127,34 +124,36 @@ class StudentProfileView(APIView):
             "hostel_name": profile.hostel_name,
             "block": profile.block,
             "room_number": profile.room_number,
-            "profile_picture": (
-                profile.profile_picture.url
-                if profile.profile_picture else None
-            ),
+            "profile_picture": profile.profile_picture or None,
         })
 
 
-    
 class StudentProfileUpdateView(APIView):
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def put(self, request):
-        profile = request.user.profile
-        serializer = StudentProfileSerializer(
-            profile,
-            data=request.data,
-            partial=True
+        profile, _ = StudentProfile.objects.get_or_create(user=request.user)
+
+        # Handle fields
+        for field in ["department", "year", "hostel_name", "block", "room_number"]:
+            if field in request.data:
+                setattr(profile, field, request.data[field])
+
+        # Convert uploaded image to base64 and store as text
+        pic_file = request.FILES.get("profile_picture")
+        if pic_file:
+            raw = pic_file.read()
+            mime = pic_file.content_type or "image/jpeg"
+            b64 = base64.b64encode(raw).decode("utf-8")
+            profile.profile_picture = f"data:{mime};base64,{b64}"
+
+        profile.save()
+        return Response(
+            {"message": "Profile updated successfully"},
+            status=status.HTTP_200_OK
         )
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"message": "Profile updated successfully"},
-                status=status.HTTP_200_OK
-            )
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 class StudentProfilePictureUploadView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
