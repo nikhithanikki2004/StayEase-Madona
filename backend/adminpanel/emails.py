@@ -30,7 +30,7 @@ def send_staff_credentials_email(user, password):
         f"Your staff account has been created.\n\n"
         f"Email: {email}\n"
         f"Password: {password}\n"
-        f"Login: http://localhost:5173/login"
+        f"Login: https://stay-ease-madona.vercel.app/login"
     )
 
     # HTML version styled to match the site's theme (stay-brown / stay-cream)
