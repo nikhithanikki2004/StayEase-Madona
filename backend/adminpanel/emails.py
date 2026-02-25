@@ -3,25 +3,34 @@ from django.conf import settings
 
 
 
+import threading
+
+def _send_email_thread(subject, plain_message, from_email, recipients, html_message):
+    try:
+        send_mail(
+            subject=subject,
+            message=plain_message,
+            from_email=from_email,
+            recipient_list=recipients,
+            html_message=html_message,
+            fail_silently=False,
+        )
+        print(f"✅ Success: Email sent to {recipients}")
+    except Exception as e:
+        print(f"❌ Error sending email: {str(e)}")
+        # Check if environment variable is missing (accessing settings inside thread)
+        from django.conf import settings
+        if not getattr(settings, 'EMAIL_HOST_PASSWORD', None):
+            print("⚠️ WARNING: EMAIL_HOST_PASSWORD environment variable is NOT SET.")
+
 def send_staff_credentials_email(user, password):
     """
-    Send login credentials email to the shared staff inbox (stayeasestaff@gmail.com).
-    Includes a password reset link (uid + token) that points to the frontend reset page.
-
-    Args:
-        user (Student): The created staff user instance
-        password (str): Plain text password (only sent in email, not stored)
+    Send login credentials email to the staff user and the shared staff inbox in a background thread.
     """
-
     email = user.email
     full_name = user.full_name
-
-    # No reset link included per latest requirement
-    reset_url = None
-
     subject = "Your StayEase Staff Account"
 
-    # Plain text body matching requested format and including reset link
     plain_message = (
         f"From: {settings.EMAIL_HOST_USER}\n"
         f"To: {email}\n\n"
@@ -33,7 +42,6 @@ def send_staff_credentials_email(user, password):
         f"Login: https://stay-ease-madona.vercel.app/login"
     )
 
-    # HTML version styled to match the site's theme (stay-brown / stay-cream)
     html_message = f"""
 <html>
     <body style="margin:0; padding:0; font-family: Arial, Helvetica, sans-serif; background-color:#f6f6f6;">
@@ -54,6 +62,7 @@ def send_staff_credentials_email(user, password):
                                 <div style="background:#FDF5E6; border:1px solid #eee; padding:16px; border-radius:6px; margin:16px 0;">
                                     <p style="margin:0 0 6px 0;"><strong>Email:</strong> <span style="color:#6F4E37;">{email}</span></p>
                                     <p style="margin:0 0 6px 0;"><strong>Password:</strong> <span style="color:#6F4E37;">{password}</span></p>
+                                </div>
                                    
                                 <p style="margin:0; color:#9CA3AF; font-size:12px;">If you did not expect this email, contact your admin immediately.</p>
                             </td>
@@ -70,24 +79,15 @@ def send_staff_credentials_email(user, password):
     </body>
 </html>
 """
+    recipients = [email, "stayeasestaff@gmail.com"]
 
-    try:
-        # Send to both the staff member's email and the shared staff inbox
-        recipients = [email, "stayeasestaff@gmail.com"]
-        
-        send_mail(
-            subject=subject,
-            message=plain_message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=recipients,
-            html_message=html_message,
-            fail_silently=False,
-        )
-        print(f"✅ Success: Email sent to {recipients}")
-        return True
-    except Exception as e:
-        print(f"❌ Error sending email: {str(e)}")
-        # Check if environment variable is missing
-        if not settings.EMAIL_HOST_PASSWORD:
-            print("⚠️ WARNING: EMAIL_HOST_PASSWORD environment variable is NOT SET.")
-        return False
+    # Start email sending in a background thread to prevent CORS/timeout issues
+    thread = threading.Thread(
+        target=_send_email_thread,
+        args=(subject, plain_message, settings.EMAIL_HOST_USER, recipients, html_message)
+    )
+    thread.daemon = True
+    thread.start()
+    
+    print(f"🚀 Email thread started for {email}")
+    return True
