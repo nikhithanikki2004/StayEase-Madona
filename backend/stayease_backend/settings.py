@@ -165,7 +165,8 @@ DEFAULT_FROM_EMAIL = "StayEase Support <stayease.noreply@gmail.com>"
 STATIC_URL = 'static/'
  
 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5175",

@@ -72,15 +72,22 @@ def send_staff_credentials_email(user, password):
 """
 
     try:
+        # Send to both the staff member's email and the shared staff inbox
+        recipients = [email, "stayeasestaff@gmail.com"]
+        
         send_mail(
             subject=subject,
             message=plain_message,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=["stayeasestaff@gmail.com"],  # Send to shared staff inbox
+            recipient_list=recipients,
             html_message=html_message,
             fail_silently=False,
         )
+        print(f"✅ Success: Email sent to {recipients}")
         return True
     except Exception as e:
-        print(f"Error sending email: {str(e)}")
+        print(f"❌ Error sending email: {str(e)}")
+        # Check if environment variable is missing
+        if not settings.EMAIL_HOST_PASSWORD:
+            print("⚠️ WARNING: EMAIL_HOST_PASSWORD environment variable is NOT SET.")
         return False
