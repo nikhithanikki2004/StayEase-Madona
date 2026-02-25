@@ -14,6 +14,7 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [slowLoading, setSlowLoading] = useState(false);
 
   const pwdRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
@@ -106,12 +107,16 @@ export default function Login() {
     }
 
     setLoading(true);
+    setSlowLoading(false);
+    // After 5s, show a hint that the server is waking up (Render cold start)
+    const slowTimer = setTimeout(() => setSlowLoading(true), 5000);
 
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/students/login/`,
         formData
       );
+      clearTimeout(slowTimer);
 
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
@@ -149,6 +154,7 @@ export default function Login() {
       });
 
     } catch (err) {
+      clearTimeout(slowTimer);
       if (err.response && (err.response.status === 401 || err.response.status === 400)) {
         setErrors((prev) => ({
           ...prev,
@@ -159,6 +165,7 @@ export default function Login() {
       }
     } finally {
       setLoading(false);
+      setSlowLoading(false);
     }
   };
 
@@ -319,6 +326,20 @@ export default function Login() {
             >
               {loading ? "Verifying..." : "Login"}
             </motion.button>
+
+            {/* Cold-start hint after 5s */}
+            <AnimatePresence>
+              {slowLoading && (
+                <motion.p
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="text-center text-[11px] font-bold text-[#6F4E37]/60 tracking-wide"
+                >
+                  ⏳ Server is waking up, please wait a moment…
+                </motion.p>
+              )}
+            </AnimatePresence>
 
             <div className="text-center pt-4">
               <p className="text-[11px] font-black uppercase tracking-widest text-[#6F4E37]/30">
