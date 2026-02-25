@@ -35,6 +35,19 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# ============================
+# CLOUDINARY STORAGE
+# ============================
+import cloudinary
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
@@ -56,6 +69,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
     'students',
     'complaints',
     'adminpanel',
