@@ -170,7 +170,8 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5175",
     "http://127.0.0.1:5175",
-    "https://stay-ease-madona.vercel.app",
+    "https://stay-ease-madona-jk6zi2e8u-nikhitha-antonys-projects.vercel.app",
+
 ]
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -183,7 +184,7 @@ CORS_ALLOW_METHODS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5175",
     "http://127.0.0.1:5175",
-    "https://stay-ease-madona.vercel.app",
+    "https://stay-ease-madona-jk6zi2e8u-nikhitha-antonys-projects.vercel.app",
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
