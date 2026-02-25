@@ -30,10 +30,15 @@ const StudentSidebar = () => {
 
         setStudentName(res.data.full_name);
 
-        if (res.data.profile?.profile_picture) {
-          setProfilePic(
-            `${import.meta.env.VITE_API_URL}` + res.data.profile.profile_picture
-          );
+        const rawPic = res.data.profile_picture || res.data.profile?.profile_picture;
+        if (rawPic) {
+          const baseUrl = import.meta.env.VITE_API_URL || "";
+          // If the returned path starts with http/https, use it as is.
+          const finalUrl = rawPic.startsWith("http")
+            ? rawPic
+            : `${baseUrl.replace(/\/$/, "")}${rawPic.startsWith("/") ? "" : "/"}${rawPic}`;
+
+          setProfilePic(finalUrl);
         }
       } catch (err) {
         console.error("Sidebar fetch failed", err);
@@ -45,15 +50,14 @@ const StudentSidebar = () => {
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-200
-     ${
-       isActive
-         ? "bg-[#FFF3E0] text-[#6F4E37] font-semibold shadow"
-         : "text-[#FDF5E6] hover:bg-[#FFF3E0] hover:text-[#6F4E37]"
-     }`;
+     ${isActive
+      ? "bg-[#FFF3E0] text-[#6F4E37] font-semibold shadow"
+      : "text-[#FDF5E6] hover:bg-[#FFF3E0] hover:text-[#6F4E37]"
+    }`;
 
   return (
     <aside className="fixed top-0 left-0 w-64 h-screen bg-gradient-to-b from-[#6F4E37] to-[#5a3d2b] px-5 py-8 flex flex-col z-50">
-      
+
       {/* 🔹 PROFILE SECTION */}
       <div
         className="flex flex-col items-center mb-10 cursor-pointer"

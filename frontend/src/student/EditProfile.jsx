@@ -65,9 +65,13 @@ const EditProfile = () => {
         });
 
         if (res.data.profile_picture) {
-          setImagePreview(
-            `${import.meta.env.VITE_API_URL}` + res.data.profile_picture
-          );
+          const rawPic = res.data.profile_picture;
+          const baseUrl = import.meta.env.VITE_API_URL || "";
+          const finalUrl = rawPic.startsWith("http")
+            ? rawPic
+            : `${baseUrl.replace(/\/$/, "")}${rawPic.startsWith("/") ? "" : "/"}${rawPic}`;
+
+          setImagePreview(finalUrl);
         }
 
       } catch (err) {
@@ -307,8 +311,8 @@ const InputField = ({ label, name, value, onChange, disabled }) => (
       disabled={disabled}
       onChange={onChange}
       className={`w-full border-2 rounded-2xl px-5 py-3 font-bold transition-all ${disabled
-          ? "bg-gray-50 border-transparent text-gray-500"
-          : "bg-white border-stay-brown ring-4 ring-stay-brown/5 text-stay-brown"
+        ? "bg-gray-50 border-transparent text-gray-500"
+        : "bg-white border-stay-brown ring-4 ring-stay-brown/5 text-stay-brown"
         }`}
     />
   </div>
@@ -325,8 +329,8 @@ const SelectField = ({ label, name, value, options, onChange, disabled }) => (
       disabled={disabled}
       onChange={onChange}
       className={`w-full border-2 rounded-2xl px-5 py-3 font-bold appearance-none transition-all ${disabled
-          ? "bg-gray-50 border-transparent text-gray-500"
-          : "bg-white border-stay-brown ring-4 ring-stay-brown/5 text-stay-brown"
+        ? "bg-gray-50 border-transparent text-gray-500"
+        : "bg-white border-stay-brown ring-4 ring-stay-brown/5 text-stay-brown"
         }`}
     >
       <option value="">Select</option>
