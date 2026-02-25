@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Home, Info, PhoneCall, Layers, ShieldCheck } from 'lucide-react';
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+const logo = "/images/stayeaselogo1.png";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -43,7 +44,7 @@ const Navbar = () => {
                             transition={{ type: "spring", stiffness: 260, damping: 20 }}
                             className="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden"
                         >
-                            <img src="/src/images/stayeaselogo1.png" alt="StayEase Logo" className="w-full h-full object-contain scale-125" />
+                            <img src={logo} alt="StayEase Logo" className="w-full h-full object-contain scale-125" />
                         </motion.div>
                     </div>
                     <div className="flex flex-col leading-none">

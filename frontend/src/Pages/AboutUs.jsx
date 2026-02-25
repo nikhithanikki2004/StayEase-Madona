@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { ShieldCheck, Target, Eye, Award, MapPin } from 'lucide-react';
+const marianLogo = '/images/marian_logo.png';
+const heroImg = '/images/Heroimg.png';
 
 const AboutUs = () => {
     return (
@@ -26,9 +28,7 @@ const AboutUs = () => {
                                 Marian College Kuttikkanam (Autonomous) has always been a pioneer in student welfare. StayEase is the next evolution in our commitment to providing a world-class living experience.
                             </p>
                             <div className="flex items-center gap-6">
-                                <div className="w-20 h-20 bg-white rounded-3xl shadow-xl flex items-center justify-center p-4 border border-[#6F4E37]/5">
-                                    <img src="/src/images/marian_logo.png" alt="Logo" className="w-full h-full object-contain" />
-                                </div>
+                                <img src={marianLogo} alt="Logo" className="w-full h-full object-contain" />
                                 <div>
                                     <p className="font-black text-xl uppercase tracking-tighter">Marian College</p>
                                     <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Kuttikkanam, Idukki</p>
@@ -42,7 +42,7 @@ const AboutUs = () => {
                             className="relative rounded-[5rem] overflow-hidden shadow-2xl h-[600px] bg-[#6F4E37]/10"
                         >
                             <img
-                                src="/src/images/Heroimg.png"
+                                src={heroImg}
                                 alt="Marian Campus"
                                 className="w-full h-full object-cover"
                             />

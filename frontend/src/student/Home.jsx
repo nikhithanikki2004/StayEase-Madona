@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import { motion } from "framer-motion";
 import { Megaphone, AlertTriangle, Clock } from "lucide-react";
-import stdimage from "../images/stdimage.png";
+const stdimage = "/images/stdimage.png";
 
 /* 🔹 STAGGER CONTAINER */
 const containerVariants = {

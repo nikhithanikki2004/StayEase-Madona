@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Eye, EyeOff, Lock, Mail, ShieldCheck, AlertCircle, ArrowLeft, Home } from "lucide-react";
 import { useNavigate, NavLink } from "react-router-dom";
-import logo from "../images/stayeaselogo1.png";
+const logo = "/images/stayeaselogo1.png";
 import Swal from "sweetalert2";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -149,10 +149,10 @@ export default function Login() {
       });
 
     } catch (err) {
-      if (err.response && err.response.status === 401) {
+      if (err.response && (err.response.status === 401 || err.response.status === 400)) {
         setErrors((prev) => ({
           ...prev,
-          password: "Incorrect password. Please try again.",
+          password: "Incorrect password or account issue. Please try again.",
         }));
       } else {
         alert("An error occurred. Please check your connection.");

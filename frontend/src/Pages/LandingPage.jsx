@@ -17,6 +17,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+const heroImg = '/images/Heroimg.png';
+const marianLogo = '/images/marian_logo.png';
 
 
 /**
@@ -108,7 +110,7 @@ const LandingPage = () => {
           className="absolute inset-0 z-0"
         >
           <img
-            src="src/images/Heroimg.png"
+            src={heroImg}
             alt="Hero Background"
             className="w-full h-full object-cover brightness-110"
           />
@@ -129,7 +131,7 @@ const LandingPage = () => {
                 className="inline-flex items-center gap-6 px-8 py-4 bg-white/70 backdrop-blur-xl border-[2px] border-[#6F4E37]/20 rounded-[3rem] mb-12 shadow-[0_25px_60px_-15px_rgba(111,78,55,0.15)] group transition-all hover:border-[#6F4E37]"
               >
                 <div className="p-2 bg-white rounded-[1.5rem] shadow-lg border border-[#6F4E37]/5">
-                  <img src="src/images/marian_logo.png" alt="Marian College Logo" className="h-12 object-contain" />
+                  <img src={marianLogo} alt="Marian College Logo" className="h-12 object-contain" />
                 </div>
                 <div className="flex flex-col items-start pr-4">
                   <span className="text-[12px] font-black uppercase tracking-[0.1em] text-[#6F4E37]/40 whitespace-nowrap">Marian College, Kuttikkanam</span>
@@ -283,7 +285,7 @@ const LandingPage = () => {
           >
             <div className="relative rounded-[5rem] overflow-hidden shadow-2xl h-[600px] w-full bg-[#6F4E37]/20 border-8 border-white">
               <img
-                src="src/images/Heroimg.png"
+                src={heroImg}
                 alt="Institutional Pride"
                 className="w-full h-full object-cover opacity-80"
               />
