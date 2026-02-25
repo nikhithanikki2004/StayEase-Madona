@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Eye, EyeOff, Lock, Mail, User, Phone, GraduationCap, Home as HomeIcon, Hash, ShieldCheck, Zap, ArrowLeft, Home, Sparkles } from "lucide-react";
 import { useNavigate, NavLink } from "react-router-dom";
-const logo = "/images/stayeaselogo1.png";
+const logo = "/stayeaselogo1.png";
 import Swal from "sweetalert2";
 import { motion, AnimatePresence } from "framer-motion";
 

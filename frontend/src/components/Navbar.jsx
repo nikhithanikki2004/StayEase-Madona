@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Home, Info, PhoneCall, Layers, ShieldCheck } from 'lucide-react';
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-const logo = "/images/stayeaselogo1.png";
+const logo = "/stayeaselogo1.png";
 
 const Navbar = () => {
     const navigate = useNavigate();

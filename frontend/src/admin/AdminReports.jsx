@@ -34,7 +34,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-const logo = "/images/stayeaselogo1.png";
+const logo = "/stayeaselogo1.png";
 
 // Register ChartJS components
 ChartJS.register(

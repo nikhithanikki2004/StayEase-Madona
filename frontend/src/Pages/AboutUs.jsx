@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { ShieldCheck, Target, Eye, Award, MapPin } from 'lucide-react';
-const marianLogo = '/images/marian_logo.png';
-const heroImg = '/images/Heroimg.png';
+const marianLogo = '/marian_logo.png';
+const heroImg = '/Heroimg.png';
 
 const AboutUs = () => {
     return (

@@ -17,8 +17,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-const heroImg = '/images/Heroimg.png';
-const marianLogo = '/images/marian_logo.png';
+const heroImg = '/Heroimg.png';
+const marianLogo = '/marian_logo.png';
 
 
 /**
