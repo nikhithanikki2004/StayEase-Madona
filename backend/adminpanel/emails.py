@@ -4,6 +4,7 @@ from django.conf import settings
 
 
 import threading
+import traceback
 
 def _send_email_thread(subject, plain_message, from_email, recipients, html_message):
     try:
@@ -17,11 +18,15 @@ def _send_email_thread(subject, plain_message, from_email, recipients, html_mess
         )
         print(f"✅ Success: Email sent to {recipients}")
     except Exception as e:
-        print(f"❌ Error sending email: {str(e)}")
+        print(f"❌ Detailed SMTP Error: {str(e)}")
+        traceback.print_exc()  # This will print the full error stack in Render logs
+        
         # Check if environment variable is missing (accessing settings inside thread)
         from django.conf import settings
         if not getattr(settings, 'EMAIL_HOST_PASSWORD', None):
             print("⚠️ WARNING: EMAIL_HOST_PASSWORD environment variable is NOT SET.")
+        else:
+            print("💡 TIP: Check if you are using a Google App Password (not your regular Gmail password).")
 
 def send_staff_credentials_email(user, password):
     """
@@ -84,7 +89,7 @@ def send_staff_credentials_email(user, password):
     # Start email sending in a background thread to prevent CORS/timeout issues
     thread = threading.Thread(
         target=_send_email_thread,
-        args=(subject, plain_message, settings.EMAIL_HOST_USER, recipients, html_message)
+        args=(subject, plain_message, settings.DEFAULT_FROM_EMAIL, recipients, html_message)
     )
     thread.daemon = True
     thread.start()
