@@ -1,34 +1,58 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .emails import _send_email_thread
+from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 from .views import IsAdminUser
-import threading
+import traceback
 
 class AdminTestEmailView(APIView):
     """
-    Temporary endpoint for admins to test SMTP connectivity and see logs.
+    Endpoint for admins to test SMTP connectivity.
+    Runs synchronously to return errors directly in the response.
     """
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def post(self, request):
         test_recipient = request.data.get("email", "stayeasestaff@gmail.com")
-        subject = "StayEase Deployment SMTP Test"
+        subject = "StayEase SMTP Diagnostic Test"
         plain_message = f"SMTP Test from {settings.EMAIL_HOST_USER}. If you see this, email is working!"
-        html_message = f"<h1>StayEase SMTP Test</h1><p>Sent from {settings.EMAIL_HOST_USER}</p>"
         
-        # We call the same thread logic to test exactly how staff emails are sent
-        thread = threading.Thread(
-            target=_send_email_thread,
-            args=(subject, plain_message, settings.DEFAULT_FROM_EMAIL, [test_recipient], html_message)
-        )
-        thread.daemon = True
-        thread.start()
-
-        return Response({
-            "message": f"Test email triggered to {test_recipient}. Check server logs for results.",
-            "smtp_user": settings.EMAIL_HOST_USER,
-            "smtp_host": settings.EMAIL_HOST
-        }, status=status.HTTP_200_OK)
+        print(f"--- 🛡️ Manual SMTP Diagnostic for {test_recipient} ---")
+        
+        try:
+            # RUN SYNCHRONOUSLY to catch errors
+            send_mail(
+                subject=subject,
+                message=plain_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[test_recipient],
+                fail_silently=False
+            )
+            return Response({
+                "status": "success",
+                "message": f"Email sent successfully to {test_recipient}!",
+                "details": {
+                    "smtp_user": settings.EMAIL_HOST_USER,
+                    "from_email": settings.DEFAULT_FROM_EMAIL
+                }
+            }, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            error_msg = str(e)
+            stack_trace = traceback.format_exc()
+            print(f"❌ Diagnostic Failure: {error_msg}")
+            
+            return Response({
+                "status": "error",
+                "error_type": type(e).__name__,
+                "error_message": error_msg,
+                "hint": "Check if your App Password is correct and 2FA is enabled.",
+                "smtp_config": {
+                    "user": settings.EMAIL_HOST_USER,
+                    "host": settings.EMAIL_HOST,
+                    "port": settings.EMAIL_PORT,
+                    "use_tls": settings.EMAIL_USE_TLS
+                }
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
