@@ -12,6 +12,7 @@ from django.db.models import Avg, Count, Q, F, ExpressionWrapper, DurationField
 from django.utils.timezone import now
 from datetime import timedelta
 from .emails import send_staff_credentials_email
+import traceback
 
 
 
@@ -195,26 +196,26 @@ class AdminCreateStaffView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def post(self, request):
-        print(f"DEBUG: AdminCreateStaffView hit with data: {request.data}")
-        data = request.data
+        try:
+            print(f"DEBUG: AdminCreateStaffView hit with data: {request.data}")
+            data = request.data
 
-        required_fields = ["full_name", "email", "password", "mobile_number"]
-        for field in required_fields:
-            if not data.get(field):
-                print(f"DEBUG: Missing field: {field}")
+            required_fields = ["full_name", "email", "password", "mobile_number"]
+            for field in required_fields:
+                if not data.get(field):
+                    print(f"DEBUG: Missing field: {field}")
+                    return Response(
+                        {"error": f"{field} is required"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+            if Student.objects.filter(email=data["email"]).exists():
+                print(f"DEBUG: Email already exists: {data['email']}")
                 return Response(
-                    {"error": f"{field} is required"},
+                    {"error": "Email already exists"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-        if Student.objects.filter(email=data["email"]).exists():
-            print(f"DEBUG: Email already exists: {data['email']}")
-            return Response(
-                {"error": "Email already exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        try:
             staff = Student.objects.create_user(
                 email=data["email"],
                 password=data["password"],
@@ -225,33 +226,37 @@ class AdminCreateStaffView(APIView):
                 is_active=True
             )
             print(f"DEBUG: Staff created: {staff.email}")
-        except Exception as e:
-            print(f"DEBUG: Error creating user: {str(e)}")
-            return Response(
-                {"error": f"Internal error during creation: {str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
 
-        # ✅ Send email with login credentials (includes reset link)
-        try:
-            email_sent = send_staff_credentials_email(
-                staff,
-                password=data["password"]  # Plain text password (only sent in email)
-            )
-            print(f"DEBUG: Email task triggered: {email_sent}")
-        except Exception as e:
-            print(f"DEBUG: Error triggering email: {str(e)}")
+            # ✅ Send email with login credentials
             email_sent = False
+            try:
+                email_sent = send_staff_credentials_email(
+                    staff,
+                    password=data["password"]
+                )
+                print(f"DEBUG: Email task triggered: {email_sent}")
+            except Exception as email_err:
+                print(f"DEBUG: SMTP/Email Error (Caught): {str(email_err)}")
+                traceback.print_exc()
 
-        return Response({
-            "message": "Staff created successfully",
-            "email_sent": email_sent,
-            "staff": {
-                "id": staff.id,
-                "name": staff.full_name,
-                "email": staff.email
-            }
-        }, status=status.HTTP_201_CREATED)
+            return Response({
+                "message": "Staff created successfully",
+                "email_sent": email_sent,
+                "staff": {
+                    "id": staff.id,
+                    "name": staff.full_name,
+                    "email": staff.email
+                }
+            }, status=status.HTTP_201_CREATED)
+
+        except Exception as global_err:
+            print(f"DEBUG: GLOBAL CRASH in AdminCreateStaffView: {str(global_err)}")
+            traceback.print_exc()
+            return Response({
+                "error": "Critical Server Error during creation",
+                "details": str(global_err),
+                "trace": traceback.format_exc()
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 
 class AdminAvailableStaffView(APIView):

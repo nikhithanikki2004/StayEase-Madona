@@ -97,7 +97,7 @@ def send_staff_credentials_email(user, password):
             from_email=settings.EMAIL_HOST_USER, # Direct use of SMTP user
             recipient_list=recipients,
             html_message=html_message,
-            fail_silently=False,
+            fail_silently=True,
         )
         print(f"✅ Success: Email sent to {recipients}")
         return True
