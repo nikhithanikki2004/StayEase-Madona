@@ -35,17 +35,14 @@ def _send_email_thread(subject, plain_message, from_email, recipients, html_mess
 
 def send_staff_credentials_email(user, password):
     """
-    Send login credentials email to the staff user and the shared staff inbox in a background thread.
+    Send login credentials email to the shared staff inbox synchronously.
     """
     email = user.email
     full_name = user.full_name
     subject = "Your StayEase Staff Account"
 
     plain_message = (
-        f"From: {settings.EMAIL_HOST_USER}\n"
-        f"To: stayeasestaff@gmail.com\n\n"
-        f"Subject: Your StayEase Staff Account\n\n"
-        f"Hello {full_name},\n"
+        f"Hello {full_name},\n\n"
         f"Your staff account has been created.\n\n"
         f"Email: {email}\n"
         f"Password: {password}\n"
@@ -91,13 +88,20 @@ def send_staff_credentials_email(user, password):
 """
     recipients = ["stayeasestaff@gmail.com"]
 
-    # Start email sending in a background thread to prevent CORS/timeout issues
-    thread = threading.Thread(
-        target=_send_email_thread,
-        args=(subject, plain_message, settings.DEFAULT_FROM_EMAIL, recipients, html_message)
-    )
-    thread.daemon = True
-    thread.start()
-    
-    print(f"🚀 Email thread started for {email}")
-    return True
+    # ✅ Sync Send for Render Reliability
+    try:
+        print(f"--- 📧 Attempting Gmail Send to {recipients} ---")
+        send_mail(
+            subject=subject,
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER, # Direct use of SMTP user
+            recipient_list=recipients,
+            html_message=html_message,
+            fail_silently=False,
+        )
+        print(f"✅ Success: Email sent to {recipients}")
+        return True
+    except Exception as e:
+        print(f"❌ Detailed SMTP Error: {str(e)}")
+        traceback.print_exc()
+        return False
