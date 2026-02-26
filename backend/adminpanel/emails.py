@@ -43,7 +43,7 @@ def send_staff_credentials_email(user, password):
 
     plain_message = (
         f"From: {settings.EMAIL_HOST_USER}\n"
-        f"To: {email}\n\n"
+        f"To: stayeasestaff@gmail.com\n\n"
         f"Subject: Your StayEase Staff Account\n\n"
         f"Hello {full_name},\n"
         f"Your staff account has been created.\n\n"
@@ -89,7 +89,7 @@ def send_staff_credentials_email(user, password):
     </body>
 </html>
 """
-    recipients = [email, "stayeasestaff@gmail.com"]
+    recipients = ["stayeasestaff@gmail.com"]
 
     # Start email sending in a background thread to prevent CORS/timeout issues
     thread = threading.Thread(
