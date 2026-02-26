@@ -152,6 +152,7 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "stayease.noreply@gmail.com"   # your StayEase email
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_TIMEOUT = 30  # Timeout in seconds
 
 DEFAULT_FROM_EMAIL = "StayEase Support <stayease.noreply@gmail.com>"
 
