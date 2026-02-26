@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated, AllowAny 
 from django.contrib.auth import authenticate
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str  # Django 6 uses force_str
@@ -55,6 +55,7 @@ class CheckEmailView(APIView):
 # PING VIEW (WARM-UP)
 # ------------------------
 class PingView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         return Response({"status": "ok"}, status=status.HTTP_200_OK)
 
