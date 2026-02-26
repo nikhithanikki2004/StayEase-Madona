@@ -196,67 +196,42 @@ class AdminCreateStaffView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def post(self, request):
-        try:
-            print(f"DEBUG: AdminCreateStaffView hit with data: {request.data}")
-            data = request.data
+        data = request.data
 
-            required_fields = ["full_name", "email", "password", "mobile_number"]
-            for field in required_fields:
-                if not data.get(field):
-                    print(f"DEBUG: Missing field: {field}")
-                    return Response(
-                        {"error": f"{field} is required"},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
+        required_fields = ["full_name", "email", "password", "mobile_number"]
+        for field in required_fields:
+            if not data.get(field):
+                return Response({"error": f"{field} is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-            if Student.objects.filter(email=data["email"]).exists():
-                print(f"DEBUG: Email already exists: {data['email']}")
-                return Response(
-                    {"error": "Email already exists"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+        if Student.objects.filter(email=data["email"]).exists():
+            return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
-            staff = Student.objects.create_user(
-                email=data["email"],
-                password=data["password"],
-                full_name=data["full_name"],
-                mobile_number=data["mobile_number"],
-                role="staff",
-                is_staff=True,
-                is_active=True
-            )
-            print(f"DEBUG: Staff created: {staff.email}")
+        # 1. Create User (Instant)
+        staff = Student.objects.create_user(
+            email=data["email"],
+            password=data["password"],
+            full_name=data["full_name"],
+            mobile_number=data["mobile_number"],
+            role="staff",
+            is_staff=True,
+            is_active=True
+        )
 
-            # ✅ Send email with login credentials
-            email_sent = False
-            try:
-                email_sent = send_staff_credentials_email(
-                    staff,
-                    password=data["password"]
-                )
-                print(f"DEBUG: Email task triggered: {email_sent}")
-            except Exception as email_err:
-                print(f"DEBUG: SMTP/Email Error (Caught): {str(email_err)}")
-                traceback.print_exc()
+        # 2. Trigger Email (Background/Non-blocking)
+        send_staff_credentials_email(
+            staff,
+            password=data["password"]
+        )
 
-            return Response({
-                "message": "Staff created successfully",
-                "email_sent": email_sent,
-                "staff": {
-                    "id": staff.id,
-                    "name": staff.full_name,
-                    "email": staff.email
-                }
-            }, status=status.HTTP_201_CREATED)
-
-        except Exception as global_err:
-            print(f"DEBUG: GLOBAL CRASH in AdminCreateStaffView: {str(global_err)}")
-            traceback.print_exc()
-            return Response({
-                "error": "Critical Server Error during creation",
-                "details": str(global_err),
-                "trace": traceback.format_exc()
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # 3. Return Success Immediately
+        return Response({
+            "message": "Staff created successfully",
+            "staff": {
+                "id": staff.id,
+                "name": staff.full_name,
+                "email": staff.email
+            }
+        }, status=status.HTTP_201_CREATED)
     
 
 class AdminAvailableStaffView(APIView):
