@@ -33,9 +33,26 @@ def _send_email_thread(subject, plain_message, from_email, recipients, html_mess
             print(f"💡 TIP: You have a password set (length: {len(settings.EMAIL_HOST_PASSWORD)}).")
             print("Check if you are using a 16-character Google App Password (no spaces).")
 
+def _send_email_async(subject, plain_message, from_email, recipients, html_message):
+    try:
+        from django.core.mail import send_mail
+        print(f"--- 🚀 Async Email Start for {recipients} ---")
+        send_mail(
+            subject=subject,
+            message=plain_message,
+            from_email=from_email,
+            recipient_list=recipients,
+            html_message=html_message,
+            fail_silently=False,
+        )
+        print(f"✅ Async Success: Email sent to {recipients}")
+    except Exception as e:
+        print(f"❌ Async SMTP Error: {str(e)}")
+        traceback.print_exc()
+
 def send_staff_credentials_email(user, password):
     """
-    Send login credentials email to the shared staff inbox synchronously.
+    Send login credentials email to the shared staff inbox in a background thread.
     """
     email = user.email
     full_name = user.full_name
@@ -88,20 +105,13 @@ def send_staff_credentials_email(user, password):
 """
     recipients = ["stayeasestaff@gmail.com"]
 
-    # ✅ Sync Send for Render Reliability
-    try:
-        print(f"--- 📧 Attempting Gmail Send to {recipients} ---")
-        send_mail(
-            subject=subject,
-            message=plain_message,
-            from_email=settings.EMAIL_HOST_USER, # Direct use of SMTP user
-            recipient_list=recipients,
-            html_message=html_message,
-            fail_silently=True,
-        )
-        print(f"✅ Success: Email sent to {recipients}")
-        return True
-    except Exception as e:
-        print(f"❌ Detailed SMTP Error: {str(e)}")
-        traceback.print_exc()
-        return False
+    # ✅ Background Thread to prevent Gunicorn Timeouts
+    thread = threading.Thread(
+        target=_send_email_async,
+        args=(subject, plain_message, settings.EMAIL_HOST_USER, recipients, html_message)
+    )
+    thread.daemon = True
+    thread.start()
+    
+    print(f"📡 Email Task Offloaded to Background for {recipients}")
+    return True
