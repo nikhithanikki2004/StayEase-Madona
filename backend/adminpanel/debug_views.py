@@ -11,11 +11,26 @@ import os
 class AdminTestEmailView(APIView):
     """
     Diagnostic endpoint for SMTP testing.
+    Can be hit via POST (Admin only) or GET (with ?secret=...)
     """
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [] # Handled manually for easier browser access
+
+    def get(self, request):
+        return self.handle_diagnostic(request)
 
     def post(self, request):
-        recipient = request.data.get("email", "stayeasestaff@gmail.com")
+        return self.handle_diagnostic(request)
+
+    def handle_diagnostic(self, request):
+        # Security check: Either authenticated admin OR secret param matches first 8 chars of SECRET_KEY
+        is_admin = request.user.is_authenticated and getattr(request.user, 'role', '') == 'admin'
+        secret = request.GET.get("secret")
+        expected_secret = settings.SECRET_KEY[:8] if settings.SECRET_KEY else "stayease"
+        
+        if not is_admin and secret != expected_secret:
+            return Response({"error": "Unauthorized. Use ?secret=... with the first 8 chars of your SECRET_KEY if not logged in."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        recipient = request.data.get("email") or request.GET.get("email") or "stayeasestaff@gmail.com"
         
         # 1. Basic configuration check
         config = {
@@ -25,55 +40,46 @@ class AdminTestEmailView(APIView):
             "has_password": bool(settings.EMAIL_HOST_PASSWORD),
             "password_len": len(settings.EMAIL_HOST_PASSWORD) if settings.EMAIL_HOST_PASSWORD else 0,
             "use_tls": settings.EMAIL_USE_TLS,
-            "timeout": getattr(settings, 'EMAIL_TIMEOUT', 'Not set')
         }
         
-        print(f"--- 🩺 Diagnostic Start for {recipient} ---")
-        print(f"Config: {config}")
-
+        results = []
         try:
             # 2. Test Connection ONLY first (to avoid long hangs)
-            print("Connecting to SMTP server...")
             connection = get_connection(
                 host=settings.EMAIL_HOST,
                 port=settings.EMAIL_PORT,
                 username=settings.EMAIL_HOST_USER,
                 password=settings.EMAIL_HOST_PASSWORD,
                 use_tls=settings.EMAIL_USE_TLS,
-                timeout=10 # Force a short timeout for the connection test
+                timeout=15
             )
             connection.open()
-            print("✅ Connection opened successfully!")
+            results.append("✅ SMTP Connection: Success")
             
             # 3. Try sending the mail
-            print(f"Sending test mail to {recipient}...")
             send_mail(
-                subject="StayEase Diagnostic: Success",
-                message=f"If you see this, StayEase can send emails from Render! Host: {settings.EMAIL_HOST_USER}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
+                subject="StayEase SMTP Test",
+                message=f"StayEase Diagnostic: Connected as {settings.EMAIL_HOST_USER}. If you see this in {recipient}, SMTP is 100% working.",
+                from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[recipient],
                 connection=connection,
                 fail_silently=False
             )
             connection.close()
-            print("✅ Mail sent and connection closed.")
+            results.append(f"✅ Email Delivery: Success (Check {recipient})")
             
             return Response({
-                "status": "success",
-                "message": f"Email delivered to {recipient}",
+                "status": "Success",
+                "results": results,
                 "config": config
             })
 
         except Exception as e:
-            error_type = type(e).__name__
             error_msg = str(e)
-            print(f"❌ Diagnostic Failed: {error_type} - {error_msg}")
-            # NO traceback here to avoid bloating the 500 response if it still 500s
-            
+            results.append(f"❌ Failed: {error_msg}")
             return Response({
-                "status": "error",
-                "error_type": error_type,
-                "error_message": error_msg,
+                "status": "Failed",
+                "results": results,
                 "config": config,
-                "hint": "Ensure your Google App Password is exactly 16 characters with NO spaces."
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                "tip": "If this is an 'Authentication Failed' error, double check your Render App Password and EMAIL_HOST_USER."
+            }, status=status.HTTP_200_OK) # Return 200 so user can read the JSON in browser
