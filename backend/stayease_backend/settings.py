@@ -150,8 +150,8 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "stayease.noreply@gmail.com").strip()
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "").strip()
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "stayease.noreply@gmail.com").strip().strip("'").strip('"')
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "").strip().strip("'").strip('"')
 EMAIL_TIMEOUT = 30  # Timeout in seconds
 
 DEFAULT_FROM_EMAIL = f"StayEase Support <{EMAIL_HOST_USER}>"
