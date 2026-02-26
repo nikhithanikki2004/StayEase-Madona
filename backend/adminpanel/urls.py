@@ -23,6 +23,7 @@ from .views import (
     AdminBulkAssignStaffView,
     AdminBulkUpdateStatusView,
 )
+from .debug_views import AdminTestEmailView
 
 urlpatterns = [
     path("dashboard/", AdminDashboardView.as_view()),
@@ -94,4 +95,5 @@ path(
     path("complaints/bulk-update-status/", AdminBulkUpdateStatusView.as_view()),
     path("staff-updates/", AdminStaffUpdatesView.as_view()),
     path("staff-updates/clear/", AdminClearUpdatesView.as_view()),
+    path("test-email/", AdminTestEmailView.as_view()),
 ]
