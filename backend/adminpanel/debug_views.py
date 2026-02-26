@@ -22,13 +22,12 @@ class AdminTestEmailView(APIView):
         return self.handle_diagnostic(request)
 
     def handle_diagnostic(self, request):
-        # Security check: Either authenticated admin OR secret param matches first 8 chars of SECRET_KEY
+        # Security check: Either authenticated admin OR secret param matches
         is_admin = request.user.is_authenticated and getattr(request.user, 'role', '') == 'admin'
         secret = request.GET.get("secret")
-        expected_secret = settings.SECRET_KEY[:8] if settings.SECRET_KEY else "stayease"
-        
-        if not is_admin and secret != expected_secret:
-            return Response({"error": "Unauthorized. Use ?secret=... with the first 8 chars of your SECRET_KEY if not logged in."}, status=status.HTTP_401_UNAUTHORIZED)
+        # Using a simple predictable secret for the user to click
+        if not is_admin and secret != "stayease_debug":
+            return Response({"error": "Unauthorized. Use ?secret=stayease_debug if not logged in."}, status=status.HTTP_401_UNAUTHORIZED)
 
         recipient = request.data.get("email") or request.GET.get("email") or "stayeasestaff@gmail.com"
         
