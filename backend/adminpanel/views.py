@@ -195,37 +195,53 @@ class AdminCreateStaffView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def post(self, request):
+        print(f"DEBUG: AdminCreateStaffView hit with data: {request.data}")
         data = request.data
 
         required_fields = ["full_name", "email", "password", "mobile_number"]
         for field in required_fields:
             if not data.get(field):
+                print(f"DEBUG: Missing field: {field}")
                 return Response(
                     {"error": f"{field} is required"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
         if Student.objects.filter(email=data["email"]).exists():
+            print(f"DEBUG: Email already exists: {data['email']}")
             return Response(
                 {"error": "Email already exists"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        staff = Student.objects.create_user(
-            email=data["email"],
-            password=data["password"],
-            full_name=data["full_name"],
-            mobile_number=data["mobile_number"],
-            role="staff",
-            is_staff=True,
-            is_active=True
-        )
+        try:
+            staff = Student.objects.create_user(
+                email=data["email"],
+                password=data["password"],
+                full_name=data["full_name"],
+                mobile_number=data["mobile_number"],
+                role="staff",
+                is_staff=True,
+                is_active=True
+            )
+            print(f"DEBUG: Staff created: {staff.email}")
+        except Exception as e:
+            print(f"DEBUG: Error creating user: {str(e)}")
+            return Response(
+                {"error": f"Internal error during creation: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         # ✅ Send email with login credentials (includes reset link)
-        email_sent = send_staff_credentials_email(
-            staff,
-            password=data["password"]  # Plain text password (only sent in email)
-        )
+        try:
+            email_sent = send_staff_credentials_email(
+                staff,
+                password=data["password"]  # Plain text password (only sent in email)
+            )
+            print(f"DEBUG: Email task triggered: {email_sent}")
+        except Exception as e:
+            print(f"DEBUG: Error triggering email: {str(e)}")
+            email_sent = False
 
         return Response({
             "message": "Staff created successfully",
