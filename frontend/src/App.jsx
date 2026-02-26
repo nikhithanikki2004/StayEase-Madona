@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import axios from "axios";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./Pages/Login";
@@ -52,6 +54,19 @@ import StaffRatings from "./staff/StaffRatings";
 
 
 function App() {
+  useEffect(() => {
+    // Warm up the backend (Render cold start)
+    const wakeup = async () => {
+      try {
+        await axios.get(`${import.meta.env.VITE_API_URL}/api/students/ping/`);
+        console.log("Backend is awake! 🚀");
+      } catch (err) {
+        console.log("Waking up backend...", err.message);
+      }
+    };
+    wakeup();
+  }, []);
+
   return (
 
     <BrowserRouter>

@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import  AdminSupportReplyView, AdminSupportStatusUpdateView, StudentCreateSupport, StudentProfileUpdateView, StudentProfileView, StudentSignupView, CheckEmailView, StudentSupportList, StudentSupportReply, UserLoginView , StudentDashboardView,AdminSupportDetailView, AdminSupportListView, PasswordResetConfirmView
+from .views import  AdminSupportReplyView, AdminSupportStatusUpdateView, StudentCreateSupport, StudentProfileUpdateView, StudentProfileView, StudentSignupView, CheckEmailView, StudentSupportList, StudentSupportReply, UserLoginView , StudentDashboardView,AdminSupportDetailView, AdminSupportListView, PasswordResetConfirmView, PingView
  
     
 from .views import StudentProfilePictureUploadView
@@ -12,6 +12,7 @@ urlpatterns = [
     path("signup/", StudentSignupView.as_view(), name="student-signup"),
     path("check-email/", CheckEmailView.as_view(), name="check-email"),
     path("login/", UserLoginView.as_view(), name="user-login"),
+    path("ping/", PingView.as_view(), name="ping"),
     path("dashboard/", StudentDashboardView.as_view(), name="student-dashboard"),
     path("profile/", StudentProfileView.as_view()),   # ✅ FIXED
     path(

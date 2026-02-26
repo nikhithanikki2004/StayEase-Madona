@@ -51,6 +51,14 @@ class CheckEmailView(APIView):
         return Response({"exists": exists})
     
 
+# ------------------------
+# PING VIEW (WARM-UP)
+# ------------------------
+class PingView(APIView):
+    def get(self, request):
+        return Response({"status": "ok"}, status=status.HTTP_200_OK)
+
+
 class StudentDashboardView(APIView):
     permission_classes = [IsAuthenticated]
 
