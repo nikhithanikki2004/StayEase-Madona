@@ -292,7 +292,7 @@ export default function Signup() {
                   className={`w-full p-3 bg-[#FDF5E6]/40 border-2 rounded-[2rem] outline-none transition-all font-bold text-sm text-[#6F4E37] placeholder:text-[#6F4E37]/30 shadow-inner ${errors.password ? 'border-red-500/50 bg-red-50' : 'border-[#6F4E37]/20 focus:border-[#6F4E37] focus:bg-white focus:shadow-xl'}`}
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="cursor-pointer absolute right-5 top-[1rem] text-[#6F4E37]/30 hover:text-[#6F4E37] transition-all hover:scale-110">
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </div>
               {errors.password && <p className="text-red-500 text-[8px] ml-3 font-black uppercase tracking-wider leading-tight">{errors.password}</p>}
@@ -313,7 +313,7 @@ export default function Signup() {
                   className={`w-full p-3 bg-[#FDF5E6]/40 border-2 rounded-[2rem] outline-none transition-all font-bold text-sm text-[#6F4E37] placeholder:text-[#6F4E37]/30 shadow-inner ${errors.confirm_password ? 'border-red-500/50 bg-red-50' : 'border-[#6F4E37]/20 focus:border-[#6F4E37] focus:bg-white focus:shadow-xl'}`}
                 />
                 <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer absolute right-5 top-[1rem] text-[#6F4E37]/30 hover:text-[#6F4E37] transition-all hover:scale-110">
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </div>
               {errors.confirm_password && <p className="text-red-500 text-[9px] ml-3 font-black uppercase tracking-widest">{errors.confirm_password}</p>}

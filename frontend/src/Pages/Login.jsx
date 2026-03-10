@@ -297,7 +297,7 @@ export default function Login() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="cursor-pointer absolute right-6 top-[1.4rem] text-[#6F4E37]/30 hover:text-[#6F4E37] transition-colors"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
                 <AnimatePresence>
                   {errors.password && (
