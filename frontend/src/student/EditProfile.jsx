@@ -203,7 +203,7 @@ const EditProfile = () => {
             <h2 className="text-3xl font-black text-[#6F4E37] tracking-tight">{profile.full_name}</h2>
             <div className="flex items-center justify-center gap-2 mt-2 opacity-40">
               <Mail size={12} className="text-[#6F4E37]" />
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] lowercase">{profile.email}</p>
+              <p className="text-[10px] font-black tracking-[0.2em] lowercase">{profile.email}</p>
             </div>
           </div>
 
