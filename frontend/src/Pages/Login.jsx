@@ -295,8 +295,9 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="cursor-pointer absolute right-6 top-[1.4rem] text-[#6F4E37]/30 hover:text-[#6F4E37] transition-colors"
+                  className="cursor-pointer absolute right-6 top-[1.4rem] text-[#6F4E37]/40 hover:text-[#6F4E37] transition-colors"
                 >
+                  {/* Updated icon mapping: Hidden = EyeOff, Visible = Eye */}
                   {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
                 <AnimatePresence>

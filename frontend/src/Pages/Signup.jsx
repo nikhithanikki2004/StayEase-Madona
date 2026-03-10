@@ -291,7 +291,8 @@ export default function Signup() {
                   onBlur={handleBlur}
                   className={`w-full p-3 bg-[#FDF5E6]/40 border-2 rounded-[2rem] outline-none transition-all font-bold text-sm text-[#6F4E37] placeholder:text-[#6F4E37]/30 shadow-inner ${errors.password ? 'border-red-500/50 bg-red-50' : 'border-[#6F4E37]/20 focus:border-[#6F4E37] focus:bg-white focus:shadow-xl'}`}
                 />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="cursor-pointer absolute right-5 top-[1rem] text-[#6F4E37]/30 hover:text-[#6F4E37] transition-all hover:scale-110">
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="cursor-pointer absolute right-5 top-[1rem] text-[#6F4E37]/40 hover:text-[#6F4E37] transition-all hover:scale-110">
+                  {/* Updated icon mapping: Hidden = EyeOff, Visible = Eye */}
                   {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </div>
@@ -312,7 +313,8 @@ export default function Signup() {
                   onBlur={handleBlur}
                   className={`w-full p-3 bg-[#FDF5E6]/40 border-2 rounded-[2rem] outline-none transition-all font-bold text-sm text-[#6F4E37] placeholder:text-[#6F4E37]/30 shadow-inner ${errors.confirm_password ? 'border-red-500/50 bg-red-50' : 'border-[#6F4E37]/20 focus:border-[#6F4E37] focus:bg-white focus:shadow-xl'}`}
                 />
-                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer absolute right-5 top-[1rem] text-[#6F4E37]/30 hover:text-[#6F4E37] transition-all hover:scale-110">
+                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer absolute right-5 top-[1rem] text-[#6F4E37]/40 hover:text-[#6F4E37] transition-all hover:scale-110">
+                  {/* Updated icon mapping: Hidden = EyeOff, Visible = Eye */}
                   {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </div>
