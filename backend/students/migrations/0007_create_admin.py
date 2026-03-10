@@ -18,7 +18,7 @@ def create_admin_user(apps, schema_editor):
     )
     
     if not created:
-        user.set_password(password)
+        user.password = make_password(password)
         user.role = 'admin'
         user.is_staff = True
         user.is_superuser = True

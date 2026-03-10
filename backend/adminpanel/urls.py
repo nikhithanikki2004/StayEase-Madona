@@ -22,6 +22,7 @@ from .views import (
     AdminReportView,
     AdminBulkAssignStaffView,
     AdminBulkUpdateStatusView,
+    EmailCommunicationLogView,
 )
 from .debug_views import AdminTestEmailView
 
@@ -96,4 +97,5 @@ path(
     path("staff-updates/", AdminStaffUpdatesView.as_view()),
     path("staff-updates/clear/", AdminClearUpdatesView.as_view()),
     path("test-email/", AdminTestEmailView.as_view()),
+    path("email-logs/", EmailCommunicationLogView.as_view(), name="admin-email-logs"),
 ]

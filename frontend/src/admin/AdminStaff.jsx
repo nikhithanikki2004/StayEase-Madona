@@ -50,14 +50,27 @@ export default function AdminStaff() {
         form,
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      .then(() => {
+      .then((res) => {
+        const staffData = res.data.staff;
+
+        // Modal with credentials for presentation/fallback
         Swal.fire({
           icon: "success",
-          title: "Staff Created",
-          text: "New staff member added successfully",
-          timer: 1800,
-          showConfirmButton: false,
-          background: "#fffaf5",
+          title: "Staff Created Successfully",
+          html: `
+            <div style="text-align: left; background: #fffaf5; padding: 15px; border-radius: 8px; border: 1px solid #6f4e37;">
+              <p style="margin-bottom: 8px;"><strong>Name:</strong> ${staffData.name}</p>
+              <p style="margin-bottom: 8px;"><strong>Email:</strong> ${staffData.email}</p>
+              <p style="margin-bottom: 8px;"><strong>Password:</strong> <code style="background: #eee; padding: 2px 6px; border-radius: 4px;">${staffData.password}</code></p>
+              <hr style="border: 0.5px solid #ddd; margin: 12px 0;">
+              <p style="font-size: 13px; color: #6b7280; line-height: 1.4;">
+                <i class="fas fa-info-circle"></i> An internal delivery log has been created. Since some networks block email ports, you can use these credentials for your presentation.
+              </p>
+            </div>
+          `,
+          confirmButtonText: "Got it!",
+          confirmButtonColor: "#6f4e37",
+          background: "#ffffff",
         });
 
         setForm({
@@ -218,9 +231,8 @@ export default function AdminStaff() {
                     <td>{s.mobile_number}</td>
                     <td>
                       <span
-                        className={`staff-badge ${
-                          s.available ? "available" : "busy"
-                        }`}
+                        className={`staff-badge ${s.available ? "available" : "busy"
+                          }`}
                       >
                         {s.available ? "Available" : "Busy"}
                       </span>
@@ -233,9 +245,8 @@ export default function AdminStaff() {
                           handleDelete(s.id, s.full_name)
                         }
                         disabled={!s.available}
-                        className={`staff-delete-btn ${
-                          !s.available && "disabled"
-                        }`}
+                        className={`staff-delete-btn ${!s.available && "disabled"
+                          }`}
                       >
                         Delete
                       </motion.button>

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from complaints.models import Complaint
 from students.models import Student
 from complaints.serializers import ComplaintRatingSerializer
-
+from .models import EmailLog
 
 class AssignedStaffSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,10 +26,6 @@ class AdminComplaintSerializer(serializers.ModelSerializer):
 
     def get_awaiting_feedback(self, obj):
         return obj.status == "Resolved" and not hasattr(obj, "rating")
-
-
-
-
 
     class Meta:
         model = Complaint
@@ -91,4 +87,7 @@ class StaffPerformanceSerializer(serializers.Serializer):
 
     performance_score = serializers.FloatField()
 
-
+class EmailLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailLog
+        fields = "__all__"

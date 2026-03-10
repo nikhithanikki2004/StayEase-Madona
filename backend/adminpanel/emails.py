@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.conf import settings
+from .models import EmailLog
 
 
 
@@ -50,8 +51,25 @@ def _send_email_async(subject, plain_message, from_email, recipients, html_messa
             fail_silently=False, # Changed to False to see errors in production logs
         )
         print(f"✅ Async Success: Email sent to {recipients}")
+        
+        # Log success to DB
+        EmailLog.objects.create(
+            recipient=", ".join(recipients),
+            subject=subject,
+            body=plain_message,
+            status="Sent (Success)"
+        )
     except Exception as e:
-        print(f"❌ Async SMTP Error: {str(e)}")
+        error_msg = str(e)
+        print(f"❌ Async SMTP Error: {error_msg}")
+        
+        # Log failure to DB
+        EmailLog.objects.create(
+            recipient=", ".join(recipients),
+            subject=subject,
+            body=plain_message,
+            status=f"Failed: {error_msg[:50]}"
+        )
         traceback.print_exc()
 
 def send_staff_credentials_email(user, password):

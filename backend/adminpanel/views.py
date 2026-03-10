@@ -5,17 +5,25 @@ from rest_framework.permissions import BasePermission, IsAuthenticated
 
 from complaints.models import Complaint, ComplaintLog, ComplaintRating
 from django.shortcuts import get_object_or_404
-from .serializers import AdminComplaintSerializer
+from rest_framework import status, generics
+from .models import EmailLog
+from .serializers import AdminComplaintSerializer, EmailLogSerializer
 from students.models import Student
-from rest_framework import status
 from django.db.models import Avg, Count, Q, F, ExpressionWrapper, DurationField
 from django.utils.timezone import now
 from datetime import timedelta
 from .emails import send_staff_credentials_email
 import traceback
 
-
-
+# 📧 Email Delivery Log View
+class EmailCommunicationLogView(generics.ListAPIView):
+    """
+    Returns a history of all email communication attempts.
+    Great for demonstrating functionality during presentations!
+    """
+    queryset = EmailLog.objects.all().order_by('-created_at')
+    serializer_class = EmailLogSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 # 🔐 Admin-only permission
@@ -223,13 +231,14 @@ class AdminCreateStaffView(APIView):
             password=data["password"]
         )
 
-        # 3. Return Success Immediately
+        # 3. Return Success Immediately (Including password for presentation/fallback)
         return Response({
             "message": "Staff created successfully",
             "staff": {
                 "id": staff.id,
                 "name": staff.full_name,
-                "email": staff.email
+                "email": staff.email,
+                "password": data["password"] # Returning password as a fallback
             }
         }, status=status.HTTP_201_CREATED)
     
