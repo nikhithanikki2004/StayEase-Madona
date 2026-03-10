@@ -203,18 +203,16 @@ const EditProfile = () => {
             <h2 className="text-3xl font-black text-[#6F4E37] tracking-tight">{profile.full_name}</h2>
             <div className="flex items-center justify-center gap-2 mt-2 opacity-40">
               <Mail size={12} className="text-[#6F4E37]" />
-              <p className="text-[10px] font-black uppercase tracking-[0.2em]">{profile.email}</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] lowercase">{profile.email}</p>
             </div>
           </div>
 
           {/* DETAILS GRID */}
           <div className="w-full max-w-4xl pt-12 border-t border-[#6F4E37]/5">
-            <div className="flex items-center gap-3 mb-10">
-              <div className="bg-[#6F4E37]/10 p-2 rounded-xl text-[#6F4E37]">
-                <Hash size={20} />
-              </div>
-              <h3 className="text-xl font-black text-[#6F4E37] uppercase tracking-tighter">Verified Credentials</h3>
+            <div className="bg-[#6F4E37] p-2 rounded-xl text-white">
+              <Hash size={20} />
             </div>
+            <h3 className="text-xl font-black text-[#6F4E37] uppercase tracking-tighter">Profile Details</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
               <UnifiedField
@@ -288,8 +286,8 @@ const EditProfile = () => {
               <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8">
                 <CheckCircle2 size={48} />
               </div>
-              <h2 className="text-3xl font-black text-[#6F4E37] mb-3 tracking-tight">Identity Secure</h2>
-              <p className="text-[#6F4E37]/60 font-medium leading-relaxed">Your profile modifications have been registered in the system.</p>
+              <h2 className="text-3xl font-black text-[#6F4E37] mb-3 tracking-tight">Profile Saved Successfully</h2>
+              <p className="text-[#6F4E37]/60 font-medium leading-relaxed">Your identity modifications have been registered in the system.</p>
             </motion.div>
           </motion.div>
         )}
