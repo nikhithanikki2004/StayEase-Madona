@@ -37,3 +37,16 @@
     --text-9xl: 7.2rem;
     --text-9xl--line-height: 1;
 }
+
+/* Hide browser default password reveal icons to prevent overlapping with custom toggles */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+}
