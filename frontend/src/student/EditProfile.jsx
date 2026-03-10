@@ -208,11 +208,8 @@ const EditProfile = () => {
           </div>
 
           {/* DETAILS GRID */}
-          <div className="w-full max-w-4xl pt-12 border-t border-[#6F4E37]/5">
-            <div className="bg-[#6F4E37] p-2 rounded-xl text-white">
-              <Hash size={20} />
-            </div>
-            <h3 className="text-xl font-black text-[#6F4E37] uppercase tracking-tighter">Profile Details</h3>
+          <div className="w-full max-w-4xl pt-8 border-t border-[#6F4E37]/5">
+            <h3 className="text-xl font-black text-[#6F4E37] uppercase tracking-tighter mb-10">Profile Details</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
               <UnifiedField
