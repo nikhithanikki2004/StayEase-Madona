@@ -36,14 +36,18 @@ def _send_email_thread(subject, plain_message, from_email, recipients, html_mess
 def _send_email_async(subject, plain_message, from_email, recipients, html_message):
     try:
         from django.core.mail import send_mail
+        from django.conf import settings
         print(f"--- 🚀 Async Email Start for {recipients} ---")
+        print(f"Using EMAIL_HOST: {settings.EMAIL_HOST}:{settings.EMAIL_PORT}")
+        print(f"From: {from_email}")
+        
         send_mail(
             subject=subject,
             message=plain_message,
             from_email=from_email,
             recipient_list=recipients,
             html_message=html_message,
-            fail_silently=True, # Absolute silence in background
+            fail_silently=False, # Changed to False to see errors in production logs
         )
         print(f"✅ Async Success: Email sent to {recipients}")
     except Exception as e:
