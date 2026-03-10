@@ -15,6 +15,15 @@ from datetime import timedelta
 from .emails import send_staff_credentials_email
 import traceback
 
+# 🔐 Admin-only permission
+class IsAdminUser(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user.is_authenticated and
+            request.user.role == "admin"
+        )
+
+
 # 📧 Email Delivery Log View
 class EmailCommunicationLogView(generics.ListAPIView):
     """
@@ -24,15 +33,6 @@ class EmailCommunicationLogView(generics.ListAPIView):
     queryset = EmailLog.objects.all().order_by('-created_at')
     serializer_class = EmailLogSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
-
-
-# 🔐 Admin-only permission
-class IsAdminUser(BasePermission):
-    def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated and
-            request.user.role == "admin"
-        )
 
 
 # 📊 Admin Dashboard API
