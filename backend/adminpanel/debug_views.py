@@ -35,24 +35,25 @@ class AdminTestEmailView(APIView):
         config = {
             "host": settings.EMAIL_HOST,
             "port": settings.EMAIL_PORT,
-            "user": repr(settings.EMAIL_HOST_USER), # repr helpful to show \n
+            "user": repr(settings.EMAIL_HOST_USER),
             "has_password": bool(settings.EMAIL_HOST_PASSWORD),
-            "use_tls": settings.EMAIL_USE_TLS,
+            "use_tls": getattr(settings, 'EMAIL_USE_TLS', False),
+            "use_ssl": getattr(settings, 'EMAIL_USE_SSL', False),
         }
         
         results = []
-        # Detection of accidental formatting in Render
         if "\n" in settings.EMAIL_HOST_USER or " " in settings.EMAIL_HOST_USER:
             results.append("⚠️ WARNING: Your EMAIL_HOST_USER contains a newline or space. Fixing in code, but please fix in Render Dashboard too.")
         
         try:
-            # 2. Test Connection ONLY first (to avoid long hangs)
+            # 2. Test Connection
             connection = get_connection(
                 host=settings.EMAIL_HOST,
                 port=settings.EMAIL_PORT,
                 username=settings.EMAIL_HOST_USER,
                 password=settings.EMAIL_HOST_PASSWORD,
-                use_tls=settings.EMAIL_USE_TLS,
+                use_tls=config["use_tls"],
+                use_ssl=config["use_ssl"],
                 timeout=15
             )
             connection.open()
